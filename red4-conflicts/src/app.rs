@@ -436,22 +436,25 @@ impl TemplateApp {
                             });
 
                             // column 2
-                            ui.horizontal_top(|ui|
+                            ui.vertical(|ui|
                             {
-                                // if all files of a mod are losing then its obsolete
-                                if (mod_vm.files.len() == mod_vm.loses.len()) && mod_vm.wins.is_empty() {
-                                    ui.colored_label( Color32::GRAY, "⏺");
-                                }
-                                else {
-                                     // if some files are winning add green dot
-                                    if !mod_vm.wins.is_empty() {
-                                        ui.colored_label( Color32::GREEN, "⏺");
+                                ui.add_space(3.0);
+                                ui.horizontal(|ui| {
+                                    // if all files of a mod are losing then its obsolete
+                                    if (mod_vm.files.len() == mod_vm.loses.len()) && mod_vm.wins.is_empty() {
+                                        ui.colored_label( Color32::GRAY, "⏺");
                                     }
-                                    // if some files are losing add red dot
-                                    if !mod_vm.loses.is_empty() {
-                                        ui.colored_label( Color32::RED, "⏺");
+                                    else {
+                                         // if some files are winning add green dot
+                                        if !mod_vm.wins.is_empty() {
+                                            ui.colored_label( Color32::GREEN, "⏺");
+                                        }
+                                        // if some files are losing add red dot
+                                        if !mod_vm.loses.is_empty() {
+                                            ui.colored_label( Color32::RED, "⏺");
+                                        }
                                     }
-                                }
+                                });
                             });
                             
                             ui.end_row();
