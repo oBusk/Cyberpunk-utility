@@ -285,6 +285,8 @@ impl TemplateApp {
                                 )
                             };
 
+                            let row_start_y = ui.cursor().min.y;
+
                             // column 1
                             ui.collapsing(filename_ext, |ui| {
                                 let mut header_color = if mod_vm.wins.is_empty() {
@@ -453,7 +455,19 @@ impl TemplateApp {
                             });
                             
                             ui.end_row();
-                                                        
+
+                            // highlight row on hover
+                            let row_rect = egui::Rect::from_min_max(
+                                egui::pos2(ui.max_rect().left(), row_start_y),
+                                egui::pos2(ui.max_rect().right(), ui.cursor().min.y),
+                            );
+                            if ui.rect_contains_pointer(row_rect) {
+                                ui.painter().rect_filled(
+                                    row_rect,
+                                    0.0,
+                                    Color32::from_white_alpha(15),
+                                );
+                            }
                         }
                     }
                 });
