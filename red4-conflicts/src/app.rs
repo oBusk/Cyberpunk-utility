@@ -268,6 +268,21 @@ impl TemplateApp {
                                 continue;
                             }
 
+                            // file filter: skip archives with no matching files
+                            if !self.file_filter.is_empty() {
+                                let filter_lower = self.file_filter.to_lowercase();
+                                let has_match = mod_vm.wins.iter().chain(mod_vm.loses.iter()).any(|h| {
+                                    if let Some(file_name) = self.hashes.get(h) {
+                                        file_name.to_lowercase().contains(&filter_lower)
+                                    } else {
+                                        h.to_string().contains(&filter_lower)
+                                    }
+                                });
+                                if !has_match {
+                                    continue;
+                                }
+                            }
+
                             let filename_ext = if !self.show_no_conflicts {
                                 format!(
                                     "{} (w: {}, l: {})",
